@@ -200,6 +200,23 @@
       color: #888;
       margin-top: 50px;
     }
+  .download-btn {
+  display: inline-block;
+  margin-top: 12px;
+  background: linear-gradient(90deg, #ff003c, #ff8b00);
+  padding: 8px 14px;
+  border-radius: 25px;
+  text-decoration: none;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.download-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #ff8b00, #ff003c);
+}
   </style>
 </head>
 <body>
@@ -268,7 +285,7 @@
       .then(repos => {
         loader.style.display = "none";
         repos
-  .filter(repo => repo.name.toLowerCase() !== "Portfolio") // 👈 hides your portfolio repo
+  .filter(repo => repo.name.toLowerCase() !== "portfolio") // 👈 hides your portfolio repo
   .forEach(repo => {
           const card = document.createElement("div");
           card.className = "repo-card";
@@ -276,11 +293,14 @@
 
           card.innerHTML = `
             <h3>${repo.name}</h3>
-            <p>${repo.description || "No description provided."}</p>
-            <div class="repo-info">
-              <span>⭐ ${repo.stargazers_count}</span>
-              <span>${repo.language || "N/A"}</span>
-            </div>
+             <p>${repo.description || "No description provided."}</p>
+             <div class="repo-info">
+    <span>⭐️ ${repo.stargazers_count}</span>
+    <span>${repo.language || "N/A"}</span>
+  </div>
+  <a class="download-btn" href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
+    ⬇️ Download ZIP
+  </a>
           `;
           repoContainer.appendChild(card);
         });
