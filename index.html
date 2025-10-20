@@ -312,7 +312,7 @@
       .then(repos => {
         loader.style.display = "none";
         repos
-          .filter(repo => repo.name.toLowerCase() !== "Portfolio") // hide portfolio repo
+          .filter(repo => repo.name.toLowerCase() !== "portfolio") // hide portfolio repo
           .forEach(repo => {
             const card = document.createElement("div");
             card.className = "repo-card";
