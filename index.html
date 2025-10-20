@@ -81,8 +81,130 @@
       border-radius: 2px;
     }
 
-    /* About Section */
-    .about {
+    /* Project Section */
+    .repo-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .repo-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .repo-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .repo-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: #222;
+    }
+
+    .repo-content {
+      padding: 20px;
+      flex-grow: 1;
+    }
+
+    .repo-content h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .repo-content p {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 15px;
+      height: 45px;
+      overflow: hidden;
+    }
+
+    .repo-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: #ff8b00;
+      margin-bottom: 15px;
+    }
+
+    .repo-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 20px 20px;
+    }
+
+    .repo-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 25px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.85rem;
+      transition: 0.3s;
+    }
+
+    .view-btn {
+      background: linear-gradient(90deg, #ff003c, #ff8b00);
+      color: #fff;
+    }
+    .view-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .download-btn {
+      background: none;
+      border: 1px solid #ff8b00;
+      color: #ff8b00;
+    }
+    .download-btn:hover {
+      background: #ff8b00;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .loader {
+      text-align: center;
+      color: #888;
+      margin-top: 50px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+        .contact {
+      text-align: center;
+    }
+
+    .contact p {
+      color: #bbb;
+      margin-bottom: 15px;
+    }
+
+    .contact a {
+      color: #ff8b00;
+      font-weight: 600;
+      text-decoration: none;
+    }
+        .about {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -127,109 +249,18 @@
       background: rgba(255,255,255,0.15);
       transform: translateY(-5px);
     }
-
-    /* Projects */
-    .repo-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 25px;
-    }
-
-    .repo-card {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 20px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-    }
-
-    .repo-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .repo-card h3 {
-      font-size: 1.3rem;
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .repo-card p {
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 15px;
-      height: 40px;
-      overflow: hidden;
-    }
-
-    .repo-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: #ff8b00;
-    }
-
-    /* Contact */
-    .contact {
-      text-align: center;
-    }
-
-    .contact p {
-      color: #bbb;
-      margin-bottom: 15px;
-    }
-
-    .contact a {
-      color: #ff8b00;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 0.85rem;
-      color: #666;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .loader {
-      text-align: center;
-      color: #888;
-      margin-top: 50px;
-    }
-  .download-btn {
-  display: inline-block;
-  margin-top: 12px;
-  background: linear-gradient(90deg, #ff003c, #ff8b00);
-  padding: 8px 14px;
-  border-radius: 25px;
-  text-decoration: none;
-  color: white;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.download-btn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(90deg, #ff8b00, #ff003c);
-}
   </style>
 </head>
 <body>
   <header>
-    <h1>Ketfi Chaker <span style="color:#ff8b00;">Portfolio</span></h1>
-    <p>Full-stack Developer | Open-source Contributor | Problem Solver</p>
+    <h1>Hi, I'm <span style="color:#ff8b00;">Your Name</span></h1>
+    <p>Full-stack Developer | Open-source Contributor | Creative Coder</p>
     <a href="#projects"><button class="btn">View My Work</button></a>
   </header>
-
-  <section id="about">
+    <section id="about">
     <h2 class="section-title">About Me</h2>
     <div class="about">
-      <img src="img/c.jpg" alt="profile" />
+      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="profile" />
       <div class="about-text">
         <p>
           I'm a passionate developer who loves building creative and efficient solutions. 
@@ -239,8 +270,7 @@
       </div>
     </div>
   </section>
-
-  <section id="skills">
+ <section id="skills">
     <h2 class="section-title">Skills</h2>
     <div class="skills">
       <div class="skill">HTML</div>
@@ -255,13 +285,11 @@
       <div class="skill">Linux</div>
     </div>
   </section>
-
   <section id="projects">
     <h2 class="section-title">My Projects</h2>
     <div id="repos" class="repo-container"></div>
     <div id="loading" class="loader">Loading repositories...</div>
   </section>
-
   <section id="contact">
     <h2 class="section-title">Contact Me</h2>
     <div class="contact">
@@ -270,13 +298,12 @@
       <p>or visit my <a href="https://github.com/your-github-username" target="_blank">GitHub Profile</a>.</p>
     </div>
   </section>
-
   <footer>
-    © 2025 | Built with ❤️ using GitHub API
+    © 2025 | Built with ❤️ using GitHub API  
   </footer>
 
   <script>
-    const GITHUB_USERNAME = "lilchak19";
+    const GITHUB_USERNAME = "lilchak19"; // 👈 Replace with your username
     const repoContainer = document.getElementById("repos");
     const loader = document.getElementById("loading");
 
@@ -285,30 +312,56 @@
       .then(repos => {
         loader.style.display = "none";
         repos
-  .filter(repo => repo.name.toLowerCase() !== "portfolio") // 👈 hides your portfolio repo
-  .forEach(repo => {
-          const card = document.createElement("div");
-          card.className = "repo-card";
-          card.onclick = () => window.open(repo.html_url, "_blank");
+          .filter(repo => repo.name.toLowerCase() !== "portfolio") // hide portfolio repo
+          .forEach(repo => {
+            const card = document.createElement("div");
+            card.className = "repo-card";
 
-          card.innerHTML = `
-            <h3>${repo.name}</h3>
-             <p>${repo.description || "No description provided."}</p>
-             <div class="repo-info">
-    <span>⭐️ ${repo.stargazers_count}</span>
-    <span>${repo.language || "N/A"}</span>
-  </div>
-  <a class="download-btn" href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
-    view source 
-  </a>
-          `;
-          repoContainer.appendChild(card);
-        });
+            // Example preview image (replace with /images/reponame.jpg if available)
+            const imgURL = `images/${repo.name}.png`;
+            const defaultImg = "https://via.placeholder.com/600x400/1c1c1c/ffffff?text=" + encodeURIComponent(repo.name);
+
+            card.innerHTML = `
+              <img src="${imgURL}" class="repo-img" onerror="this.src='${defaultImg}'" alt="Project image">
+              <div class="repo-content">
+                <h3>${repo.name}</h3>
+                <p>${repo.description || "No description provided."}</p>
+                <div class="repo-info">
+                  <span>⭐ ${repo.stargazers_count}</span>
+                  <span>${repo.language || "N/A"}</span>
+                </div>
+              </div>
+              <div class="repo-buttons">
+                <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
+                <button class="download-btn" onclick="downloadRepo('${repo.name}', '${repo.default_branch}')">⬇️ Download</button>
+              </div>
+            `;
+            repoContainer.appendChild(card);
+          });
       })
       .catch(err => {
         loader.innerText = "Error loading repositories.";
         console.error(err);
       });
+
+    // Direct Download Function
+    async function downloadRepo(repoName, branch) {
+      const url = `https://github.com/${GITHUB_USERNAME}/${repoName}/archive/refs/heads/${branch}.zip`;
+      try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${repoName}.zip`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(link.href);
+      } catch (err) {
+        alert("⚠️ Unable to download this repository.");
+        console.error(err);
+      }
+    }
   </script>
 </body>
 </html>
