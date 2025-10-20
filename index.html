@@ -294,8 +294,8 @@
     <h2 class="section-title">Contact Me</h2>
     <div class="contact">
       <p>Interested in collaborating or hiring me?</p>
-      <p>Email me at: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
-      <p>or visit my <a href="https://github.com/your-github-username" target="_blank">GitHub Profile</a>.</p>
+      <p>Email me at: <a href="mailto:youremail@example.com">lilchak19@gmail.com</a></p>
+      
     </div>
   </section>
   <footer>
@@ -333,7 +333,7 @@
               </div>
               <div class="repo-buttons">
                 <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
-                <button class="download-btn" onclick="downloadRepo('${repo.name}', '${repo.default_branch}')">⬇️ Download</button>
+               <a href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" class="btn" target="_blank">Download ZIP</a>
               </div>
             `;
             repoContainer.appendChild(card);
