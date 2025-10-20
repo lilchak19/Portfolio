@@ -3,51 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+  <title>[Your Name] | Portfolio</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <h1>👋 Hi, I'm [Your Name]</h1>
-    <p>Web Developer | Student | Tech Enthusiast</p>
+  <header class="hero">
+    <nav class="navbar">
+      <h1 class="logo">[Your Name]</h1>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><button id="theme-toggle">🌙</button></li>
+      </ul>
+    </nav>
+    <div class="hero-content">
+      <img src="assets/your-photo.jpg" alt="Profile Photo" class="profile-pic">
+      <h2>Hi, I'm <span>[Your Name]</span></h2>
+      <p>💻 Front-End Developer | 🌐 Web Enthusiast | 🎨 Creative Coder</p>
+      <a href="#projects" class="btn">View My Work</a>
+    </div>
   </header>
-
-  <nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
 
   <section id="about">
     <h2>About Me</h2>
-    <p>I love building creative and functional web projects. This site showcases some of my work hosted on GitHub.</p>
+    <p>
+      Passionate about creating beautiful and responsive web experiences.
+      I specialize in building modern, accessible, and performant websites.
+    </p>
   </section>
 
   <section id="projects">
     <h2>Projects</h2>
     <div class="project-grid">
-      <div class="project">
+      <div class="project-card">
         <h3>🌤 Weather App</h3>
-        <p>A web app that shows real-time weather using the OpenWeather API.</p>
-        <a href="https://github.com/yourusername/weather-app" target="_blank">View on GitHub</a>
+        <p>A real-time weather website using the OpenWeather API.</p>
+        <a href="https://github.com/yourusername/weather-app" target="_blank" class="btn">View on GitHub</a>
       </div>
-
-      <div class="project">
+      <div class="project-card">
         <h3>📡 Network Simulator</h3>
-        <p>A simulation tool for Dijkstra & Bellman-Ford algorithms in communication networks.</p>
-        <a href="https://github.com/yourusername/network-simulator" target="_blank">View on GitHub</a>
+        <p>Simulates Dijkstra and Bellman-Ford algorithms for network routing.</p>
+        <a href="https://github.com/yourusername/network-simulator" target="_blank" class="btn">View on GitHub</a>
+      </div>
+      <div class="project-card">
+        <h3>🧠 AI Chat Assistant</h3>
+        <p>A simple chatbot powered by JavaScript and OpenAI API integration.</p>
+        <a href="https://github.com/yourusername/chat-assistant" target="_blank" class="btn">View on GitHub</a>
       </div>
     </div>
   </section>
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>📧 <a href="mailto:your@email.com">your@email.com</a></p>
-    <p>🌐 <a href="https://github.com/yourusername" target="_blank">GitHub</a></p>
+    <p>📧 <a href="mailto:youremail@gmail.com">youremail@gmail.com</a></p>
+    <p>🔗 <a href="https://github.com/yourusername" target="_blank">GitHub Profile</a></p>
   </section>
 
   <footer>
-    <p>© 2025 [Your Name] | Built with ❤️</p>
+    <p>© 2025 [Your Name]. All rights reserved.</p>
   </footer>
 
   <script src="script.js"></script>

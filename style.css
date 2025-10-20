@@ -1,55 +1,120 @@
+:root {
+  --bg: #f9f9f9;
+  --text: #222;
+  --accent: #0078ff;
+  --card: #fff;
+}
+
+body.dark {
+  --bg: #1a1a1a;
+  --text: #f5f5f5;
+  --accent: #1e90ff;
+  --card: #222;
+}
+
 body {
-  font-family: 'Poppins', sans-serif;
   margin: 0;
-  background-color: #f4f4f9;
-  color: #333;
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
 }
 
-header {
-  text-align: center;
-  padding: 2rem;
-  background-color: #0078ff;
-  color: white;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--card);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-nav {
-  text-align: center;
-  background: #333;
-  padding: 0.8rem;
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
 }
 
-nav a {
-  color: white;
-  margin: 0 1rem;
+.nav-links a {
   text-decoration: none;
+  color: var(--text);
+  transition: color 0.2s;
 }
 
-nav a:hover {
-  text-decoration: underline;
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  margin-bottom: 1rem;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: #005fd1;
 }
 
 section {
-  padding: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
+  padding: 2rem 1rem;
+  text-align: center;
 }
 
 .project-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
-.project {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  padding: 1rem;
+.project-card {
+  background: var(--card);
+  padding: 1.5rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
 }
 
 footer {
   text-align: center;
   padding: 1rem;
-  background: #222;
-  color: #aaa;
+  background: var(--card);
+  margin-top: 2rem;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
 }
