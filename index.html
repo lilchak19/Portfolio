@@ -3,53 +3,290 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>My GitHub Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #141414, #000);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      background: linear-gradient(90deg, #ff003c, #ff8b00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: #ccc;
+      font-size: 1.1rem;
+      margin: 10px 0 20px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #ff003c, #ff8b00);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    section {
+      padding: 80px 10%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, #ff003c, #ff8b00);
+      border-radius: 2px;
+    }
+
+    /* About Section */
+    .about {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .about img {
+      width: 200px;
+      border-radius: 50%;
+      border: 3px solid #ff003c;
+    }
+
+    .about-text {
+      max-width: 600px;
+      text-align: left;
+    }
+
+    .about-text p {
+      color: #aaa;
+      line-height: 1.8;
+    }
+
+    /* Skills */
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .skill {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 20px;
+      color: #ff8b00;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    .skill:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-5px);
+    }
+
+    /* Projects */
+    .repo-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .repo-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+    }
+
+    .repo-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .repo-card h3 {
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .repo-card p {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 15px;
+      height: 40px;
+      overflow: hidden;
+    }
+
+    .repo-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #ff8b00;
+    }
+
+    /* Contact */
+    .contact {
+      text-align: center;
+    }
+
+    .contact p {
+      color: #bbb;
+      margin-bottom: 15px;
+    }
+
+    .contact a {
+      color: #ff8b00;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 0.85rem;
+      color: #666;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .loader {
+      text-align: center;
+      color: #888;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>👋 Hi, I'm [Your Name]</h1>
-    <p>Web Developer | Student | Tech Enthusiast</p>
+    <h1>Hi, I'm <span style="color:#ff8b00;">Your Name</span></h1>
+    <p>Full-stack Developer | Open-source Contributor | Problem Solver</p>
+    <a href="#projects"><button class="btn">View My Work</button></a>
   </header>
 
-  <nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
   <section id="about">
-    <h2>About Me</h2>
-    <p>I love building creative and functional web projects. This site showcases some of my work hosted on GitHub.</p>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project-grid">
-      <div class="project">
-        <h3>🌤 Weather App</h3>
-        <p>A web app that shows real-time weather using the OpenWeather API.</p>
-        <a href="https://github.com/yourusername/weather-app" target="_blank">View on GitHub</a>
-      </div>
-
-      <div class="project">
-        <h3>📡 Network Simulator</h3>
-        <p>A simulation tool for Dijkstra & Bellman-Ford algorithms in communication networks.</p>
-        <a href="https://github.com/yourusername/network-simulator" target="_blank">View on GitHub</a>
+    <h2 class="section-title">About Me</h2>
+    <div class="about">
+      <img src="https://avatars.githubusercontent.com/u/9919?v=4" alt="profile" />
+      <div class="about-text">
+        <p>
+          I'm a passionate developer who loves building creative and efficient solutions. 
+          I enjoy contributing to open-source projects, experimenting with new technologies, 
+          and continuously improving my craft. My goal is to create software that makes life easier and more fun.
+        </p>
       </div>
     </div>
   </section>
 
+  <section id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills">
+      <div class="skill">HTML</div>
+      <div class="skill">CSS</div>
+      <div class="skill">JavaScript</div>
+      <div class="skill">PHP</div>
+      <div class="skill">Python</div>
+      <div class="skill">MySQL</div>
+      <div class="skill">React</div>
+      <div class="skill">Node.js</div>
+      <div class="skill">Git</div>
+      <div class="skill">Linux</div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">My Projects</h2>
+    <div id="repos" class="repo-container"></div>
+    <div id="loading" class="loader">Loading repositories...</div>
+  </section>
+
   <section id="contact">
-    <h2>Contact</h2>
-    <p>📧 <a href="mailto:your@email.com">your@email.com</a></p>
-    <p>🌐 <a href="https://github.com/yourusername" target="_blank">GitHub</a></p>
+    <h2 class="section-title">Contact Me</h2>
+    <div class="contact">
+      <p>Interested in collaborating or hiring me?</p>
+      <p>Email me at: <a href="mailto:youremail@example.com">youremail@example.com</a></p>
+      <p>or visit my <a href="https://github.com/your-github-username" target="_blank">GitHub Profile</a>.</p>
+    </div>
   </section>
 
   <footer>
-    <p>© 2025 [Your Name] | Built with ❤️</p>
+    © 2025 | Built with ❤️ using GitHub API
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    const GITHUB_USERNAME = "lilchak19";
+    const repoContainer = document.getElementById("repos");
+    const loader = document.getElementById("loading");
+
+    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`)
+      .then(res => res.json())
+      .then(repos => {
+        loader.style.display = "none";
+        repos.forEach(repo => {
+          const card = document.createElement("div");
+          card.className = "repo-card";
+          card.onclick = () => window.open(repo.html_url, "_blank");
+
+          card.innerHTML = `
+            <h3>${repo.name}</h3>
+            <p>${repo.description || "No description provided."}</p>
+            <div class="repo-info">
+              <span>⭐ ${repo.stargazers_count}</span>
+              <span>${repo.language || "N/A"}</span>
+            </div>
+          `;
+          repoContainer.appendChild(card);
+        });
+      })
+      .catch(err => {
+        loader.innerText = "Error loading repositories.";
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
