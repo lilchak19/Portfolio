@@ -267,7 +267,9 @@
       .then(res => res.json())
       .then(repos => {
         loader.style.display = "none";
-        repos.forEach(repo => {
+        repos
+  .filter(repo => repo.name.toLowerCase() !== "Portfolio") // 👈 hides your portfolio repo
+  .forEach(repo => {
           const card = document.createElement("div");
           card.className = "repo-card";
           card.onclick = () => window.open(repo.html_url, "_blank");
