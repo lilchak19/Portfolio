@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My GitHub Portfolio</title>
+  <title>Ketfi Chaker Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -15,9 +15,62 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #141414, #000);
+      background: radial-gradient(circle at top, #1a1a1a, #0d0d0d);
       color: #fff;
       overflow-x: hidden;
+    }
+
+    /* ===== Navbar ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(30, 30, 30, 0.8);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 50px;
+      z-index: 100;
+    }
+
+    nav .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    nav img {
+      width: 45px;
+      height: 45px;
+      filter: drop-shadow(0 0 10px #ff8b00);
+    }
+
+    nav h1 {
+      color: #ff8b00;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #bbb;
+      font-weight: 500;
+      transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #ff8b00;
+      text-shadow: 0 0 8px #ff8b00;
     }
 
     header {
@@ -28,6 +81,20 @@
       justify-content: center;
       text-align: center;
       padding: 20px;
+    }
+
+    /* === LOGO STYLING === */
+    header img.logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 25px;
+      filter: drop-shadow(0 0 18px #ff8b00);
+      animation: floatLogo 4s ease-in-out infinite;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.05); }
     }
 
     header h1 {
@@ -81,7 +148,47 @@
       border-radius: 2px;
     }
 
-    /* Project Section */
+    /* ===== About Section ===== */
+    #about {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+      padding: 80px 10%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      margin-top: 40px;
+    }
+
+    #about img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff8b00;
+      box-shadow: 0 0 25px rgba(255, 136, 0, 0.4);
+      animation: floatLogo 4s ease-in-out infinite;
+    }
+
+    #about .about-text {
+      max-width: 550px;
+      text-align: left;
+    }
+
+    #about h3 {
+      color: #ff8b00;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    #about p {
+      color: #bbb;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    /* ===== Projects ===== */
     .repo-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -103,6 +210,7 @@
     .repo-card:hover {
       transform: translateY(-5px);
       background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(255, 136, 0, 0.3);
     }
 
     .repo-img {
@@ -162,6 +270,7 @@
       background: linear-gradient(90deg, #ff003c, #ff8b00);
       color: #fff;
     }
+
     .view-btn:hover {
       transform: scale(1.05);
     }
@@ -171,6 +280,7 @@
       border: 1px solid #ff8b00;
       color: #ff8b00;
     }
+
     .download-btn:hover {
       background: #ff8b00;
       color: #fff;
@@ -189,8 +299,10 @@
       font-size: 0.9rem;
       color: #777;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(20,20,20,0.9);
     }
-        .contact {
+
+    .contact {
       text-align: center;
     }
 
@@ -204,106 +316,56 @@
       font-weight: 600;
       text-decoration: none;
     }
-        .about {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 40px;
-    }
-
-    .about img {
-      width: 200px;
-      border-radius: 50%;
-      border: 3px solid #ff003c;
-    }
-
-    .about-text {
-      max-width: 600px;
-      text-align: left;
-    }
-
-    .about-text p {
-      color: #aaa;
-      line-height: 1.8;
-    }
-
-    /* Skills */
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-    }
-
-    .skill {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 10px 20px;
-      color: #ff8b00;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    .skill:hover {
-      background: rgba(255,255,255,0.15);
-      transform: translateY(-5px);
-    }
   </style>
 </head>
 <body>
+  <nav>
+    <div class="nav-left">
+      <img src="images/logo.png" alt="logo" />
+      <h1>Ketfi Chaker</h1>
+    </div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
   <header>
-    <h1>Ketfi Chaker <span style="color:#ff8b00;">portfolio</span></h1>
+    <img src="images/logo.png" alt="Portfolio Logo" class="logo">
+    <h1>Ketfi Chaker <span style="color:#ff8b00;">Portfolio</span></h1>
     <p>Full-stack Developer | Open-source Contributor | Creative Coder</p>
     <a href="#projects"><button class="btn">View My Work</button></a>
   </header>
-    <section id="about">
-    <h2 class="section-title">About Me</h2>
-    <div class="about">
-      <img src="images/c.jpg" alt="profile" />
-      <div class="about-text">
-        <p>
-          I'm a passionate developer who loves building creative and efficient solutions. 
-          I enjoy contributing to open-source projects, experimenting with new technologies, 
-          and continuously improving my craft. My goal is to create software that makes life easier and more fun.
-        </p>
-      </div>
+
+  <!-- About Section -->
+  <section id="about">
+    <img src="images/c.jpg" alt="Ketfi Chaker">
+    <div class="about-text">
+      <h3>About Me</h3>
+      <p>Hey there 👋 I’m <strong>Ketfi Chaker</strong>, a passionate full-stack developer who loves building creative, visually stunning, and efficient web experiences. My work blends logic and art — turning ideas into reality with modern web technologies and a touch of design creativity. I believe in learning, sharing, and always improving through code and imagination.</p>
     </div>
   </section>
- <section id="skills">
-    <h2 class="section-title">Skills</h2>
-    <div class="skills">
-      <div class="skill">HTML</div>
-      <div class="skill">CSS</div>
-      <div class="skill">JavaScript</div>
-      <div class="skill">PHP</div>
-      <div class="skill">Python</div>
-      <div class="skill">MySQL</div>
-      <div class="skill">React</div>
-      <div class="skill">Node.js</div>
-      <div class="skill">Git</div>
-      <div class="skill">Linux</div>
-    </div>
-  </section>
+
+  <!-- Projects -->
   <section id="projects">
     <h2 class="section-title">My Projects</h2>
     <div id="repos" class="repo-container"></div>
     <div id="loading" class="loader">Loading repositories...</div>
   </section>
+
+  <!-- Contact -->
   <section id="contact">
     <h2 class="section-title">Contact Me</h2>
     <div class="contact">
-      <p>Interested in collaborating or hiring me?</p>
-      <p>Email me at: <a href="mailto:youremail@example.com">lilchak19@gmail.com</a></p>
-      
+      <p>Email me at: <a href="mailto:lilchak19@gmail.com">lilchak19@gmail.com</a></p>
     </div>
   </section>
-  <footer>
-    © 2025 | Built with ❤️ using GitHub API  
-  </footer>
+
+  <footer>© 2025 | Built with ❤️ by Ketfi Chaker</footer>
 
   <script>
-    const GITHUB_USERNAME = "lilchak19"; // 👈 Replace with your username
+    const GITHUB_USERNAME = "lilchak19";
     const repoContainer = document.getElementById("repos");
     const loader = document.getElementById("loading");
 
@@ -312,12 +374,11 @@
       .then(repos => {
         loader.style.display = "none";
         repos
-          .filter(repo => repo.name.toLowerCase() !== "portfolio") // hide portfolio repo
+          .filter(repo => repo.name.toLowerCase() !== "portfolio")
           .forEach(repo => {
             const card = document.createElement("div");
             card.className = "repo-card";
 
-            // Example preview image (replace with /images/reponame.jpg if available)
             const imgURL = `images/${repo.name}.png`;
             const defaultImg = "https://via.placeholder.com/600x400/1c1c1c/ffffff?text=" + encodeURIComponent(repo.name);
 
@@ -333,7 +394,9 @@
               </div>
               <div class="repo-buttons">
                 <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
-               <a href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" class="btn" target="_blank">Download ZIP</a>
+                <a href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
+                  <button class="download-btn">⬇ Download ZIP</button>
+                </a>
               </div>
             `;
             repoContainer.appendChild(card);
@@ -343,25 +406,6 @@
         loader.innerText = "Error loading repositories.";
         console.error(err);
       });
-
-    // Direct Download Function
-    async function downloadRepo(repoName, branch) {
-      const url = `https://github.com/${GITHUB_USERNAME}/${repoName}/archive/refs/heads/${branch}.zip`;
-      try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `${repoName}.zip`;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(link.href);
-      } catch (err) {
-        alert("⚠️ Unable to download this repository.");
-        console.error(err);
-      }
-    }
   </script>
 </body>
 </html>
