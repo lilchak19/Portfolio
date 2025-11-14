@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ketfi Chaker Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
   <style>
     * {
       margin: 0;
@@ -84,6 +83,7 @@
       padding: 20px;
     }
 
+    /* === LOGO STYLING === */
     header img.logo {
       width: 120px;
       height: 120px;
@@ -146,6 +146,46 @@
       height: 3px;
       background: linear-gradient(90deg, #ff003c, #ff8b00);
       border-radius: 2px;
+    }
+
+    /* ===== About Section ===== */
+    #about {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+      padding: 80px 10%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      margin-top: 40px;
+    }
+
+    #about img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff8b00;
+      box-shadow: 0 0 25px rgba(255, 136, 0, 0.4);
+      animation: floatLogo 4s ease-in-out infinite;
+    }
+
+    #about .about-text {
+      max-width: 550px;
+      text-align: left;
+    }
+
+    #about h3 {
+      color: #ff8b00;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    #about p {
+      color: #bbb;
+      line-height: 1.7;
+      font-size: 1rem;
     }
 
     /* ===== Projects ===== */
@@ -215,31 +255,36 @@
       padding: 0 20px 20px;
     }
 
-    .view-btn {
+    .repo-buttons button {
       flex: 1;
-      background: linear-gradient(90deg, #ff003c, #ff8b00);
       border: none;
       border-radius: 25px;
       padding: 8px 12px;
-      color: #fff;
       cursor: pointer;
+      font-weight: 500;
+      font-size: 0.85rem;
       transition: 0.3s;
     }
 
+    .view-btn {
+      background: linear-gradient(90deg, #ff003c, #ff8b00);
+      color: #fff;
+    }
+
+    .view-btn:hover {
+      transform: scale(1.05);
+    }
+
     .download-btn {
-      flex: 1;
       background: none;
       border: 1px solid #ff8b00;
       color: #ff8b00;
-      border-radius: 25px;
-      padding: 8px 12px;
-      cursor: pointer;
-      transition: 0.3s;
     }
 
     .download-btn:hover {
       background: #ff8b00;
       color: #fff;
+      transform: scale(1.05);
     }
 
     .loader {
@@ -247,13 +292,36 @@
       color: #888;
       margin-top: 50px;
     }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(20,20,20,0.9);
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact p {
+      color: #bbb;
+      margin-bottom: 15px;
+    }
+
+    .contact a {
+      color: #ff8b00;
+      font-weight: 600;
+      text-decoration: none;
+    }
   </style>
 </head>
-
 <body>
   <nav>
     <div class="nav-left">
-      <img src="images/Logo.png" />
+      <img src="images/Logo.png"  />
       <h1>Ketfi Chaker</h1>
     </div>
     <ul>
@@ -264,18 +332,18 @@
   </nav>
 
   <header>
-    <img src="images/Logo.png" alt="Portfolio Logo">
+    <img src="images/Logo.png" alt="Portfolio Logo" >
     <h1>Ketfi Chaker <span style="color:#ff8b00;">Portfolio</span></h1>
     <p>Full-stack Developer | Open-source Contributor | Creative Coder</p>
     <a href="#projects"><button class="btn">View My Work</button></a>
   </header>
 
-  <!-- About -->
+  <!-- About Section -->
   <section id="about">
     <img src="images/c.jpg" alt="Ketfi Chaker">
     <div class="about-text">
       <h3>About Me</h3>
-      <p>Hey there 👋 I’m <strong>Ketfi Chaker</strong>, a passionate full-stack developer who loves building creative and visually stunning web experiences.</p>
+      <p>Hey there 👋 I’m <strong>Ketfi Chaker</strong>, a passionate full-stack developer who loves building creative, visually stunning, and efficient web experiences. My work blends logic and art — turning ideas into reality with modern web technologies and a touch of design creativity. I believe in learning, sharing, and always improving through code and imagination.</p>
     </div>
   </section>
 
@@ -297,67 +365,47 @@
   <footer>© 2025 | Built with ❤️ by Ketfi Chaker</footer>
 
   <script>
-    const USERNAME = "lilchak19";
+    const GITHUB_USERNAME = "lilchak19";
     const repoContainer = document.getElementById("repos");
     const loader = document.getElementById("loading");
 
-    async function fetchRepoImage(repoName) {
-      const imageNames = [
-        "preview.png",
-        "screenshot.png",
-        "image.png",
-        "cover.png",
-        "thumbnail.png"
-      ];
+    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`)
+      .then(res => res.json())
+      .then(repos => {
+        loader.style.display = "none";
+        repos
+          .filter(repo => repo.name.toLowerCase() !== "portfolio")
+          .forEach(repo => {
+            const card = document.createElement("div");
+            card.className = "repo-card";
 
-      for (const image of imageNames) {
-        const url = `https://raw.githubusercontent.com/${USERNAME}/${repoName}/main/${image}`;
-        const res = await fetch(url);
+            const imgURL = `images/${repo.name}.png`;
+            const defaultImg = "https://via.placeholder.com/600x400/1c1c1c/ffffff?text=" + encodeURIComponent(repo.name);
 
-        if (res.ok) return url;
-      }
-
-      return `https://via.placeholder.com/600x350/1c1c1c/ffffff?text=${repoName}`;
-    }
-
-    async function loadRepos() {
-      const res = await fetch(`https://api.github.com/users/${USERNAME}/repos`);
-      const repos = await res.json();
-
-      loader.style.display = "none";
-
-      for (const repo of repos) {
-        if (repo.name.toLowerCase() === "portfolio") continue;
-
-        const imgURL = await fetchRepoImage(repo.name);
-
-        const card = document.createElement("div");
-        card.className = "repo-card";
-
-        card.innerHTML = `
-          <img src="${imgURL}" class="repo-img">
-          <div class="repo-content">
-            <h3>${repo.name}</h3>
-            <p>${repo.description || "No description provided."}</p>
-            <div class="repo-info">
-              <span>⭐ ${repo.stargazers_count}</span>
-              <span>${repo.language || "N/A"}</span>
-            </div>
-          </div>
-          <div class="repo-buttons">
-            <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
-            <a href="https://github.com/${USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
-              <button class="download-btn">⬇ Download ZIP</button>
-            </a>
-          </div>
-        `;
-
-        repoContainer.appendChild(card);
-      }
-    }
-
-    loadRepos();
+            card.innerHTML = `
+              <img src="${imgURL}" class="repo-img" onerror="this.src='${defaultImg}'" alt="Project image">
+              <div class="repo-content">
+                <h3>${repo.name}</h3>
+                <p>${repo.description || "No description provided."}</p>
+                <div class="repo-info">
+                  <span>⭐ ${repo.stargazers_count}</span>
+                  <span>${repo.language || "N/A"}</span>
+                </div>
+              </div>
+              <div class="repo-buttons">
+                <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
+                <a href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
+                  <button class="download-btn">⬇ Download ZIP</button>
+                </a>
+              </div>
+            `;
+            repoContainer.appendChild(card);
+          });
+      })
+      .catch(err => {
+        loader.innerText = "Error loading repositories.";
+        console.error(err);
+      });
   </script>
-
 </body>
 </html>
