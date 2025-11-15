@@ -439,7 +439,7 @@
 
     .repo-buttons {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
       gap: 10px;
       padding: 0 20px 20px;
       position: relative;
@@ -448,6 +448,7 @@
 
     .repo-buttons button {
       flex: 1;
+      min-width: 120px;
       border: none;
       border-radius: 25px;
       padding: 8px 12px;
@@ -474,6 +475,30 @@
 
     .download-btn:hover {
       background: var(--accent);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .video-btn {
+      background: none;
+      border: 1px solid #ff4757;
+      color: #ff4757;
+    }
+
+    .video-btn:hover {
+      background: #ff4757;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .pdf-btn {
+      background: none;
+      border: 1px solid #2ed573;
+      color: #2ed573;
+    }
+
+    .pdf-btn:hover {
+      background: #2ed573;
       color: #fff;
       transform: scale(1.05);
     }
@@ -590,6 +615,65 @@
       background: rgba(240,240,240,0.9);
     }
 
+    /* ===== Modal Styles ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: var(--bg-secondary);
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      position: relative;
+      box-shadow: 0 0 30px rgba(255, 136, 0, 0.3);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .video-container video {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .pdf-container {
+      width: 100%;
+      height: 80vh;
+    }
+
+    .pdf-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+
     /* ===== Scroll to Top Button ===== */
     .to-top {
       position: fixed;
@@ -662,10 +746,26 @@
       section {
         padding: 60px 5%;
       }
+
+      .repo-buttons {
+        flex-direction: column;
+      }
+
+      .repo-buttons button {
+        min-width: auto;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Modal for Video and PDF -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal">&times;</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
   <nav class="navbar">
     <div class="nav-left">
       <img src="images/Logo.png" alt="Logo">
@@ -802,42 +902,7 @@
   <section id="projects">
     <h2 class="section-title">My Projects</h2>
     <div id="repos" class="repo-container">
-      <!-- Fallback projects in case GitHub API fails -->
-      <div class="repo-card">
-        <img src="https://raw.githubusercontent.com/lilchak19/Tableblander/main/Render.png" class="repo-img" onerror="this.src='https://via.placeholder.com/600x400/1c1c1c/ffffff?text=Tableblander'" alt="Tableblander project image">
-        <div class="repo-content">
-          <h3>Tableblander</h3>
-          <p>A creative table blending application with interactive features</p>
-          <div class="repo-info">
-            <span>⭐ 0</span>
-            <span>N/A</span>
-          </div>
-        </div>
-        <div class="repo-buttons">
-          <button class="view-btn" onclick="window.open('https://github.com/lilchak19/Tableblander', '_blank')">🔗 View Source</button>
-          <a href="https://github.com/lilchak19/Tableblander/archive/refs/heads/main.zip" target="_blank">
-            <button class="download-btn">⬇ Download ZIP</button>
-          </a>
-        </div>
-      </div>
-      
-      <div class="repo-card">
-        <img src="https://raw.githubusercontent.com/lilchak19/Animation/main/Render.png" class="repo-img" onerror="this.src='https://via.placeholder.com/600x400/1c1c1c/ffffff?text=Animation'" alt="Animation project image">
-        <div class="repo-content">
-          <h3>Animation</h3>
-          <p>Interactive animation projects and creative visual effects</p>
-          <div class="repo-info">
-            <span>⭐ 0</span>
-            <span>N/A</span>
-          </div>
-        </div>
-        <div class="repo-buttons">
-          <button class="view-btn" onclick="window.open('https://github.com/lilchak19/Animation', '_blank')">🔗 View Source</button>
-          <a href="https://github.com/lilchak19/Animation/archive/refs/heads/main.zip" target="_blank">
-            <button class="download-btn">⬇ Download ZIP</button>
-          </a>
-        </div>
-      </div>
+      <!-- Projects will be loaded here -->
     </div>
     <div id="loading" class="loader">Loading repositories...</div>
   </section>
@@ -944,68 +1009,132 @@
       });
     });
 
-    // GITHUB REPOSITORIES FETCH - FIXED VERSION
+    // MODAL FUNCTIONALITY
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const closeModal = document.querySelector('.close-modal');
+
+    function openModal(content) {
+      modalBody.innerHTML = content;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModalFunc() {
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    closeModal.addEventListener('click', closeModalFunc);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModalFunc();
+    });
+
+    // Check if file exists in repository
+    async function checkFileExists(repoName, fileName) {
+      try {
+        const response = await fetch(`https://api.github.com/repos/lilchak19/${repoName}/contents/${fileName}`);
+        return response.ok;
+      } catch (error) {
+        return false;
+      }
+    }
+
+    // GITHUB REPOSITORIES FETCH
     const GITHUB_USERNAME = "lilchak19";
     const repoContainer = document.getElementById("repos");
     const loader = document.getElementById("loading");
 
-    // First, hide the loader since we have fallback projects
-    loader.style.display = "none";
-
-    // Try to fetch from GitHub API
-    fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('GitHub API limit exceeded or network error');
-        }
-        return res.json();
-      })
-      .then(repos => {
-        // Clear the fallback projects
+    async function loadRepositories() {
+      try {
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`);
+        if (!response.ok) throw new Error('GitHub API limit exceeded or network error');
+        
+        const repos = await response.json();
+        loader.style.display = "none";
+        
+        // Clear container
         repoContainer.innerHTML = '';
         
-        repos
-          .filter(repo => repo.name.toLowerCase() !== "portfolio")
-          .forEach(repo => {
-            const card = document.createElement("div");
-            card.className = "repo-card";
+        for (const repo of repos.filter(r => r.name.toLowerCase() !== "portfolio")) {
+          // Check for additional files
+          const hasVideo = await checkFileExists(repo.name, 'output.mp4');
+          const hasPdf = await checkFileExists(repo.name, 'Raport.pdf');
+          
+          const card = document.createElement("div");
+          card.className = "repo-card";
 
-            // Use Render.png from the repository's root
-            const renderImgURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/Render.png`;
-            const defaultImg = "https://via.placeholder.com/600x400/1c1c1c/ffffff?text=" + encodeURIComponent(repo.name);
+          // Use Render.png from the repository's root
+          const renderImgURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/Render.png`;
+          const defaultImg = "https://via.placeholder.com/600x400/1c1c1c/ffffff?text=" + encodeURIComponent(repo.name);
 
-            card.innerHTML = `
-              <img src="${renderImgURL}" class="repo-img" onerror="this.src='${defaultImg}'" alt="${repo.name} project image">
-              <div class="repo-content">
-                <h3>${repo.name}</h3>
-                <p>${repo.description || "No description provided."}</p>
-                <div class="repo-info">
-                  <span>⭐ ${repo.stargazers_count}</span>
-                  <span>${repo.language || "N/A"}</span>
-                </div>
+          let additionalButtons = '';
+          
+          if (hasVideo) {
+            const videoURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/output.mp4`;
+            additionalButtons += `<button class="video-btn" onclick="openVideo('${videoURL}')">🎥 Show Render</button>`;
+          }
+          
+          if (hasPdf) {
+            const pdfURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/Raport.pdf`;
+            additionalButtons += `<button class="pdf-btn" onclick="openPDF('${pdfURL}')">📄 Show Report</button>`;
+          }
+
+          card.innerHTML = `
+            <img src="${renderImgURL}" class="repo-img" onerror="this.src='${defaultImg}'" alt="${repo.name} project image">
+            <div class="repo-content">
+              <h3>${repo.name}</h3>
+              <p>${repo.description || "No description provided."}</p>
+              <div class="repo-info">
+                <span>⭐ ${repo.stargazers_count}</span>
+                <span>${repo.language || "N/A"}</span>
               </div>
-              <div class="repo-buttons">
-                <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
-                <a href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
-                  <button class="download-btn">⬇ Download ZIP</button>
-                </a>
-              </div>
-            `;
-            repoContainer.appendChild(card);
-            
-            // Add scroll reveal animation to new cards
-            setTimeout(() => {
-              card.classList.add("visible");
-            }, 100);
-          });
-      })
-      .catch(err => {
-        console.log("Using fallback projects due to:", err);
-        // We already have fallback projects, so just show them
-        document.querySelectorAll('.repo-card').forEach(card => {
-          card.classList.add('visible');
-        });
-      });
+            </div>
+            <div class="repo-buttons">
+              <button class="view-btn" onclick="window.open('${repo.html_url}', '_blank')">🔗 View Source</button>
+              <a href="https://github.com/${GITHUB_USERNAME}/${repo.name}/archive/refs/heads/main.zip" target="_blank">
+                <button class="download-btn">⬇ Download ZIP</button>
+              </a>
+              ${additionalButtons}
+            </div>
+          `;
+          repoContainer.appendChild(card);
+          
+          // Add scroll reveal animation to new cards
+          setTimeout(() => {
+            card.classList.add("visible");
+          }, 100);
+        }
+      } catch (err) {
+        console.log("Error loading repositories:", err);
+        loader.innerText = "Error loading repositories. Please check your connection.";
+      }
+    }
+
+    // Functions to open video and PDF in modal
+    function openVideo(videoURL) {
+      const videoContent = `
+        <div class="video-container">
+          <video controls autoplay>
+            <source src="${videoURL}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      `;
+      openModal(videoContent);
+    }
+
+    function openPDF(pdfURL) {
+      const pdfContent = `
+        <div class="pdf-container">
+          <iframe src="${pdfURL}"></iframe>
+        </div>
+      `;
+      openModal(pdfContent);
+    }
+
+    // Load repositories when page loads
+    loadRepositories();
 
     // Service card buttons
     document.querySelectorAll('.service-card .btn').forEach(button => {
