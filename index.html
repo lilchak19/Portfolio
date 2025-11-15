@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ketfi Chaker Portfolio</title>
+  <title>Ketfi Chaker - Full Stack Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -156,6 +157,7 @@
       color: var(--text-secondary);
       font-size: 1.1rem;
       margin: 10px 0 20px;
+      max-width: 600px;
     }
 
     .btn {
@@ -247,6 +249,95 @@
       color: var(--text-secondary);
       line-height: 1.7;
       font-size: 1rem;
+    }
+
+    /* ===== Services Section ===== */
+    #services {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+    }
+
+    .light-mode #services {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .services-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .service-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent-gradient);
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(255, 136, 0, 0.2);
+    }
+
+    .service-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--text-primary);
+    }
+
+    .service-card p {
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .service-price {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 15px 0;
+    }
+
+    .service-features {
+      list-style: none;
+      text-align: left;
+      margin: 20px 0;
+    }
+
+    .service-features li {
+      padding: 8px 0;
+      color: var(--text-secondary);
+      position: relative;
+      padding-left: 25px;
+    }
+
+    .service-features li:before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
     }
 
     /* ===== Projects ===== */
@@ -393,6 +484,57 @@
       margin-top: 50px;
     }
 
+    /* ===== Skills Section ===== */
+    #skills {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+    }
+
+    .light-mode #skills {
+      background: rgba(0, 0, 0, 0.03);
+    }
+
+    .skills-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .skill-category {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 15px;
+      padding: 25px;
+    }
+
+    .skill-category h3 {
+      color: var(--accent);
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .skill-list {
+      list-style: none;
+    }
+
+    .skill-list li {
+      padding: 10px 0;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .skill-list li:last-child {
+      border-bottom: none;
+    }
+
+    .skill-level {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
     /* ===== Contact ===== */
     .contact {
       text-align: center;
@@ -407,6 +549,31 @@
       color: var(--accent);
       font-weight: 600;
       text-decoration: none;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-links a:hover {
+      background: var(--accent);
+      transform: translateY(-5px);
     }
 
     /* ===== Footer ===== */
@@ -506,6 +673,8 @@
     </div>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#skills">Skills</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
       <li><button id="theme-toggle">🌙</button></li>
@@ -515,8 +684,12 @@
   <header>
     <img src="images/Logo.png" alt="Portfolio Logo" class="logo">
     <h1>Ketfi Chaker <span style="color:var(--accent);">Portfolio</span></h1>
-    <p>Full-stack Developer | Open-source Contributor | Creative Coder</p>
-    <a href="#projects"><button class="btn">View My Work</button></a>
+    <p>Full-stack Developer | Creative Problem Solver | Bringing Ideas to Life with Code</p>
+    <p style="font-size: 1rem; max-width: 700px;">I build responsive, high-performance web applications that deliver exceptional user experiences. Let's turn your vision into reality.</p>
+    <div style="margin-top: 30px;">
+      <a href="#projects"><button class="btn">View My Work</button></a>
+      <a href="#contact" style="margin-left: 15px;"><button class="btn" style="background: transparent; border: 2px solid var(--accent);">Hire Me</button></a>
+    </div>
   </header>
 
   <!-- About Section -->
@@ -524,7 +697,104 @@
     <img src="images/c.jpg" alt="Ketfi Chaker">
     <div class="about-text">
       <h3>About Me</h3>
-      <p>Hey there 👋 I'm <strong>Ketfi Chaker</strong>, a passionate full-stack developer who loves building creative, visually stunning, and efficient web experiences. My work blends logic and art — turning ideas into reality with modern web technologies and a touch of design creativity. I believe in learning, sharing, and always improving through code and imagination.</p>
+      <p>Hey there 👋 I'm <strong>Ketfi Chaker</strong>, a passionate full-stack developer with expertise in creating dynamic, user-centric web applications. With a strong foundation in both front-end and back-end technologies, I specialize in building solutions that are not only visually appealing but also robust and scalable.</p>
+      <p style="margin-top: 15px;">My approach combines technical expertise with creative problem-solving to deliver projects that exceed expectations. I believe in clean code, responsive design, and creating digital experiences that make an impact.</p>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <h2 class="section-title">My Services</h2>
+    <div class="services-container">
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="fas fa-laptop-code"></i>
+        </div>
+        <h3>Web Application</h3>
+        <p>Custom web applications built with modern frameworks and technologies</p>
+        <div class="service-price">Starting at $500</div>
+        <ul class="service-features">
+          <li>Responsive Design</li>
+          <li>Frontend & Backend Development</li>
+          <li>Database Integration</li>
+          <li>API Development</li>
+          <li>2 Revisions</li>
+        </ul>
+        <button class="btn" style="width: 100%;">Get Quote</button>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="fas fa-palette"></i>
+        </div>
+        <h3>UI/UX Design</h3>
+        <p>Beautiful and intuitive user interfaces that enhance user experience</p>
+        <div class="service-price">Starting at $300</div>
+        <ul class="service-features">
+          <li>User Research & Analysis</li>
+          <li>Wireframing & Prototyping</li>
+          <li>Visual Design</li>
+          <li>Interactive Elements</li>
+          <li>3 Revisions</li>
+        </ul>
+        <button class="btn" style="width: 100%;">Get Quote</button>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <h3>E-Commerce Solution</h3>
+        <p>Complete online store with payment integration and inventory management</p>
+        <div class="service-price">Starting at $800</div>
+        <ul class="service-features">
+          <li>Product Catalog</li>
+          <li>Payment Gateway Integration</li>
+          <li>Admin Dashboard</li>
+          <li>Order Management</li>
+          <li>SEO Optimization</li>
+        </ul>
+        <button class="btn" style="width: 100%;">Get Quote</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-container">
+      <div class="skill-category">
+        <h3>Frontend</h3>
+        <ul class="skill-list">
+          <li>HTML/CSS <span class="skill-level">Expert</span></li>
+          <li>JavaScript <span class="skill-level">Advanced</span></li>
+          <li>React <span class="skill-level">Intermediate</span></li>
+          <li>Vue.js <span class="skill-level">Intermediate</span></li>
+          <li>Responsive Design <span class="skill-level">Expert</span></li>
+        </ul>
+      </div>
+      
+      <div class="skill-category">
+        <h3>Backend</h3>
+        <ul class="skill-list">
+          <li>Node.js <span class="skill-level">Advanced</span></li>
+          <li>Python <span class="skill-level">Intermediate</span></li>
+          <li>PHP <span class="skill-level">Intermediate</span></li>
+          <li>RESTful APIs <span class="skill-level">Advanced</span></li>
+          <li>Database Design <span class="skill-level">Intermediate</span></li>
+        </ul>
+      </div>
+      
+      <div class="skill-category">
+        <h3>Tools & Other</h3>
+        <ul class="skill-list">
+          <li>Git/GitHub <span class="skill-level">Advanced</span></li>
+          <li>Figma <span class="skill-level">Intermediate</span></li>
+          <li>Webpack <span class="skill-level">Intermediate</span></li>
+          <li>Docker <span class="skill-level">Basic</span></li>
+          <li>AWS <span class="skill-level">Basic</span></li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -576,11 +846,23 @@
   <section id="contact">
     <h2 class="section-title">Contact Me</h2>
     <div class="contact">
+      <p>Interested in working together? Let's discuss your project!</p>
       <p>Email me at: <a href="mailto:lilchak19@gmail.com">lilchak19@gmail.com</a></p>
+      <p>I typically respond within 24 hours.</p>
+      
+      <div class="social-links">
+        <a href="https://github.com/lilchak19" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-codepen"></i></a>
+      </div>
     </div>
   </section>
 
-  <footer>© 2025 | Built with ❤️ by Ketfi Chaker</footer>
+  <footer>
+    <p>© 2025 | Built with ❤️ by Ketfi Chaker</p>
+    <p style="margin-top: 10px; font-size: 0.8rem;">Transforming ideas into digital reality</p>
+  </footer>
 
   <script>
     // 🌙 DARK/LIGHT MODE TOGGLE WITH MEMORY
@@ -625,7 +907,7 @@
     });
 
     // 🎬 SCROLL REVEAL ANIMATION
-    const revealElements = document.querySelectorAll("section, .repo-card");
+    const revealElements = document.querySelectorAll("section, .repo-card, .service-card, .skill-category");
     const revealOnScroll = () => {
       revealElements.forEach(el => {
         const rect = el.getBoundingClientRect();
@@ -724,6 +1006,14 @@
           card.classList.add('visible');
         });
       });
+
+    // Service card buttons
+    document.querySelectorAll('.service-card .btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const serviceName = this.closest('.service-card').querySelector('h3').textContent;
+        window.location.href = `mailto:lilchak19@gmail.com?subject=Quote Request: ${serviceName}&body=Hello Ketfi,%0D%0A%0D%0AI'm interested in your ${serviceName} service. Please provide more details and a custom quote.%0D%0A%0D%0AProject Details:%0D%0A%0D%0AThank you!`;
+      });
+    });
   </script>
 </body>
 </html>
