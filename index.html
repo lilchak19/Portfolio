@@ -531,7 +531,44 @@
   <!-- Projects -->
   <section id="projects">
     <h2 class="section-title">My Projects</h2>
-    <div id="repos" class="repo-container"></div>
+    <div id="repos" class="repo-container">
+      <!-- Fallback projects in case GitHub API fails -->
+      <div class="repo-card">
+        <img src="https://raw.githubusercontent.com/lilchak19/Tableblander/main/Render.png" class="repo-img" onerror="this.src='https://via.placeholder.com/600x400/1c1c1c/ffffff?text=Tableblander'" alt="Tableblander project image">
+        <div class="repo-content">
+          <h3>Tableblander</h3>
+          <p>A creative table blending application with interactive features</p>
+          <div class="repo-info">
+            <span>⭐ 0</span>
+            <span>N/A</span>
+          </div>
+        </div>
+        <div class="repo-buttons">
+          <button class="view-btn" onclick="window.open('https://github.com/lilchak19/Tableblander', '_blank')">🔗 View Source</button>
+          <a href="https://github.com/lilchak19/Tableblander/archive/refs/heads/main.zip" target="_blank">
+            <button class="download-btn">⬇ Download ZIP</button>
+          </a>
+        </div>
+      </div>
+      
+      <div class="repo-card">
+        <img src="https://raw.githubusercontent.com/lilchak19/Animation/main/Render.png" class="repo-img" onerror="this.src='https://via.placeholder.com/600x400/1c1c1c/ffffff?text=Animation'" alt="Animation project image">
+        <div class="repo-content">
+          <h3>Animation</h3>
+          <p>Interactive animation projects and creative visual effects</p>
+          <div class="repo-info">
+            <span>⭐ 0</span>
+            <span>N/A</span>
+          </div>
+        </div>
+        <div class="repo-buttons">
+          <button class="view-btn" onclick="window.open('https://github.com/lilchak19/Animation', '_blank')">🔗 View Source</button>
+          <a href="https://github.com/lilchak19/Animation/archive/refs/heads/main.zip" target="_blank">
+            <button class="download-btn">⬇ Download ZIP</button>
+          </a>
+        </div>
+      </div>
+    </div>
     <div id="loading" class="loader">Loading repositories...</div>
   </section>
 
@@ -625,15 +662,26 @@
       });
     });
 
-    // GITHUB REPOSITORIES FETCH
+    // GITHUB REPOSITORIES FETCH - FIXED VERSION
     const GITHUB_USERNAME = "lilchak19";
     const repoContainer = document.getElementById("repos");
     const loader = document.getElementById("loading");
 
+    // First, hide the loader since we have fallback projects
+    loader.style.display = "none";
+
+    // Try to fetch from GitHub API
     fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('GitHub API limit exceeded or network error');
+        }
+        return res.json();
+      })
       .then(repos => {
-        loader.style.display = "none";
+        // Clear the fallback projects
+        repoContainer.innerHTML = '';
+        
         repos
           .filter(repo => repo.name.toLowerCase() !== "portfolio")
           .forEach(repo => {
@@ -663,13 +711,18 @@
             `;
             repoContainer.appendChild(card);
             
-            // Add to reveal elements for scroll animation
-            revealElements.push(card);
+            // Add scroll reveal animation to new cards
+            setTimeout(() => {
+              card.classList.add("visible");
+            }, 100);
           });
       })
       .catch(err => {
-        loader.innerText = "Error loading repositories.";
-        console.error(err);
+        console.log("Using fallback projects due to:", err);
+        // We already have fallback projects, so just show them
+        document.querySelectorAll('.repo-card').forEach(card => {
+          card.classList.add('visible');
+        });
       });
   </script>
 </body>
