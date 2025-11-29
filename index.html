@@ -6,6 +6,9 @@
   <title>Ketfi Chaker - Full Stack Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     * {
       margin: 0;
@@ -503,6 +506,18 @@
       transform: scale(1.05);
     }
 
+    .model-btn {
+      background: none;
+      border: 1px solid #8e44ad;
+      color: #8e44ad;
+    }
+
+    .model-btn:hover {
+      background: #8e44ad;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
     .loader {
       text-align: center;
       color: #888;
@@ -674,6 +689,55 @@
       border-radius: 10px;
     }
 
+    /* ===== 3D Model Viewer Styles ===== */
+    .model-viewer-container {
+      width: 100%;
+      height: 70vh;
+      position: relative;
+      background: var(--bg-primary);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #model-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .model-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .model-controls button {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .model-controls button:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .model-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.2rem;
+    }
+
     /* ===== Scroll to Top Button ===== */
     .to-top {
       position: fixed;
@@ -758,7 +822,7 @@
   </style>
 </head>
 <body>
-  <!-- Modal for Video and PDF -->
+  <!-- Modal for Video, PDF and 3D Models -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <button class="close-modal">&times;</button>
@@ -779,6 +843,7 @@
       <li><a href="#contact">Contact</a></li>
       <li><button id="theme-toggle">🌙</button></li>
     </ul>
+    <button class="burger">☰</button>
   </nav>
 
   <header>
@@ -929,6 +994,8 @@
     <p style="margin-top: 10px; font-size: 0.8rem;">Transforming ideas into digital reality</p>
   </footer>
 
+  <button class="to-top">↑</button>
+
   <script>
     // 🌙 DARK/LIGHT MODE TOGGLE WITH MEMORY
     const toggle = document.getElementById("theme-toggle");
@@ -950,10 +1017,7 @@
 
     // 📱 MOBILE MENU TOGGLE
     const navLinks = document.querySelector(".nav-links");
-    const burger = document.createElement("button");
-    burger.classList.add("burger");
-    burger.innerHTML = "☰";
-    document.querySelector(".navbar").insertBefore(burger, navLinks);
+    const burger = document.querySelector(".burger");
 
     burger.addEventListener("click", () => {
       navLinks.classList.toggle("active");
@@ -964,7 +1028,9 @@
       anchor.addEventListener("click", function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute("href"));
-        target.scrollIntoView({ behavior: "smooth" });
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
         if (navLinks.classList.contains("active")) {
           navLinks.classList.remove("active");
         }
@@ -985,10 +1051,7 @@
     revealOnScroll();
 
     // ⬆️ SCROLL TO TOP BUTTON
-    const toTop = document.createElement("button");
-    toTop.classList.add("to-top");
-    toTop.innerHTML = "↑";
-    document.body.appendChild(toTop);
+    const toTop = document.querySelector(".to-top");
 
     window.addEventListener("scroll", () => {
       toTop.style.display = window.scrollY > 300 ? "block" : "none";
@@ -1023,6 +1086,17 @@
     function closeModalFunc() {
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
+      
+      // Clean up Three.js scene when closing modal
+      if (window.currentModelScene) {
+        if (window.currentModelScene.controls) {
+          window.currentModelScene.controls.dispose();
+        }
+        if (window.currentModelScene.renderer) {
+          window.currentModelScene.renderer.dispose();
+        }
+        window.currentModelScene = null;
+      }
     }
 
     closeModal.addEventListener('click', closeModalFunc);
@@ -1040,6 +1114,126 @@
       }
     }
 
+    // 3D MODEL VIEWER
+    function open3DModel(modelURL, modelType) {
+      const modelContent = `
+        <div class="model-viewer-container">
+          <div class="model-loading">Loading 3D Model...</div>
+          <canvas id="model-canvas"></canvas>
+          <div class="model-controls">
+            <button id="reset-view">Reset View</button>
+            <button id="toggle-rotation">Pause Rotation</button>
+          </div>
+        </div>
+      `;
+      openModal(modelContent);
+      
+      // Initialize Three.js scene after a short delay to ensure DOM is ready
+      setTimeout(() => {
+        initThreeJS(modelURL, modelType);
+      }, 100);
+    }
+
+    function initThreeJS(modelURL, modelType) {
+      const canvas = document.getElementById('model-canvas');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas, 
+        antialias: true,
+        alpha: true
+      });
+      
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+      scene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(10, 10, 5);
+      scene.add(directionalLight);
+      
+      // Controls
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      
+      // Set initial camera position
+      camera.position.z = 5;
+      
+      // Load model
+      const loader = new THREE.GLTFLoader();
+      let model;
+      let isRotating = true;
+      
+      loader.load(
+        modelURL,
+        (gltf) => {
+          document.querySelector('.model-loading').style.display = 'none';
+          model = gltf.scene;
+          scene.add(model);
+          
+          // Center and scale model
+          const box = new THREE.Box3().setFromObject(model);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const scale = 5 / maxDim;
+          model.scale.multiplyScalar(scale);
+          
+          // Auto-rotation
+          function animate() {
+            requestAnimationFrame(animate);
+            
+            if (model && isRotating) {
+              model.rotation.y += 0.005;
+            }
+            
+            controls.update();
+            renderer.render(scene, camera);
+          }
+          
+          animate();
+          
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+          });
+          
+          // Store scene reference for cleanup
+          window.currentModelScene = {
+            scene: scene,
+            renderer: renderer,
+            controls: controls
+          };
+        },
+        (progress) => {
+          // Progress callback
+          const percentLoaded = progress.loaded / progress.total * 100;
+          document.querySelector('.model-loading').textContent = `Loading 3D Model... ${Math.round(percentLoaded)}%`;
+        },
+        (error) => {
+          console.error('Error loading model:', error);
+          document.querySelector('.model-loading').textContent = 'Error loading 3D model';
+        }
+      );
+      
+      // Control buttons
+      document.getElementById('reset-view').addEventListener('click', () => {
+        controls.reset();
+      });
+      
+      document.getElementById('toggle-rotation').addEventListener('click', function() {
+        isRotating = !isRotating;
+        this.textContent = isRotating ? 'Pause Rotation' : 'Resume Rotation';
+      });
+    }
+
     // GITHUB REPOSITORIES FETCH
     const GITHUB_USERNAME = "lilchak19";
     const repoContainer = document.getElementById("repos");
@@ -1047,7 +1241,7 @@
 
     async function loadRepositories() {
       try {
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated`);
+        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`);
         if (!response.ok) throw new Error('GitHub API limit exceeded or network error');
         
         const repos = await response.json();
@@ -1056,10 +1250,17 @@
         // Clear container
         repoContainer.innerHTML = '';
         
-        for (const repo of repos.filter(r => r.name.toLowerCase() !== "portfolio")) {
+        // Filter out portfolio repo and process each repo
+        const reposToShow = repos.filter(r => !r.name.toLowerCase().includes("portfolio"));
+        
+        for (const repo of reposToShow) {
           // Check for additional files
           const hasVideo = await checkFileExists(repo.name, 'output.mp4');
           const hasPdf = await checkFileExists(repo.name, 'Raport.pdf');
+          const has3DModel = await checkFileExists(repo.name, 'model.glb') || 
+                             await checkFileExists(repo.name, 'model.gltf') ||
+                             await checkFileExists(repo.name, 'scene.glb') ||
+                             await checkFileExists(repo.name, 'scene.gltf');
           
           const card = document.createElement("div");
           card.className = "repo-card";
@@ -1078,6 +1279,31 @@
           if (hasPdf) {
             const pdfURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/Raport.pdf`;
             additionalButtons += `<button class="pdf-btn" onclick="openPDF('${pdfURL}')">📄 Show Report</button>`;
+          }
+          
+          if (has3DModel) {
+            // Determine which 3D model file exists
+            let modelFile = '';
+            let modelType = '';
+            
+            if (await checkFileExists(repo.name, 'model.glb')) {
+              modelFile = 'model.glb';
+              modelType = 'glb';
+            } else if (await checkFileExists(repo.name, 'model.gltf')) {
+              modelFile = 'model.gltf';
+              modelType = 'gltf';
+            } else if (await checkFileExists(repo.name, 'scene.glb')) {
+              modelFile = 'scene.glb';
+              modelType = 'glb';
+            } else if (await checkFileExists(repo.name, 'scene.gltf')) {
+              modelFile = 'scene.gltf';
+              modelType = 'gltf';
+            }
+            
+            if (modelFile) {
+              const modelURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/${modelFile}`;
+              additionalButtons += `<button class="model-btn" onclick="open3DModel('${modelURL}', '${modelType}')">📦 3D Viewer</button>`;
+            }
           }
 
           card.innerHTML = `
