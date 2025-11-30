@@ -1292,8 +1292,9 @@
                              await checkFileExists(repo.name, 'scene.glb') ||
                              await checkFileExists(repo.name, 'scene.gltf');
           
-          // NEW: Check if repository has index.html (for web-based 3D projects)
-          const hasIndexHTML = await checkFileExists(repo.name, 'index.html');
+          // Check if repository has index.html (for web-based 3D projects)
+          // FORCE DETECTION for threejs repository
+          const hasIndexHTML = await checkFileExists(repo.name, 'index.html') || repo.name.toLowerCase() === 'threejs';
           
           const card = document.createElement("div");
           card.className = "repo-card";
@@ -1339,8 +1340,9 @@
             }
           }
           
-          // NEW: Add Web 3D Viewer button for repositories with index.html
-          if (hasIndexHTML) {
+          // Add Web 3D Viewer button for repositories with index.html
+          // FORCE ADD for threejs repository
+          if (hasIndexHTML || repo.name.toLowerCase() === 'threejs') {
             const projectURL = `https://${GITHUB_USERNAME}.github.io/${repo.name}/`;
             additionalButtons += `<button class="web3d-btn" onclick="openWeb3D('${projectURL}')">🌐 Web 3D Viewer</button>`;
           }
