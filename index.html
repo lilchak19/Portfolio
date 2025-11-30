@@ -518,6 +518,18 @@
       transform: scale(1.05);
     }
 
+    .web3d-btn {
+      background: none;
+      border: 1px solid #3498db;
+      color: #3498db;
+    }
+
+    .web3d-btn:hover {
+      background: #3498db;
+      color: #fff;
+      transform: scale(1.05);
+    }
+
     .loader {
       text-align: center;
       color: #888;
@@ -736,6 +748,14 @@
       transform: translate(-50%, -50%);
       color: white;
       font-size: 1.2rem;
+    }
+
+    /* ===== Web 3D Viewer Styles ===== */
+    .web3d-container {
+      width: 100%;
+      height: 80vh;
+      border: none;
+      border-radius: 10px;
     }
 
     /* ===== Scroll to Top Button ===== */
@@ -1134,6 +1154,16 @@
       }, 100);
     }
 
+    // Function to open Web 3D Project
+    function openWeb3D(projectURL) {
+      const web3dContent = `
+        <div class="web3d-container">
+          <iframe src="${projectURL}" class="web3d-container"></iframe>
+        </div>
+      `;
+      openModal(web3dContent);
+    }
+
     function initThreeJS(modelURL, modelType) {
       const canvas = document.getElementById('model-canvas');
       const scene = new THREE.Scene();
@@ -1262,6 +1292,9 @@
                              await checkFileExists(repo.name, 'scene.glb') ||
                              await checkFileExists(repo.name, 'scene.gltf');
           
+          // NEW: Check if repository has index.html (for web-based 3D projects)
+          const hasIndexHTML = await checkFileExists(repo.name, 'index.html');
+          
           const card = document.createElement("div");
           card.className = "repo-card";
 
@@ -1304,6 +1337,12 @@
               const modelURL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/main/${modelFile}`;
               additionalButtons += `<button class="model-btn" onclick="open3DModel('${modelURL}', '${modelType}')">📦 3D Viewer</button>`;
             }
+          }
+          
+          // NEW: Add Web 3D Viewer button for repositories with index.html
+          if (hasIndexHTML) {
+            const projectURL = `https://${GITHUB_USERNAME}.github.io/${repo.name}/`;
+            additionalButtons += `<button class="web3d-btn" onclick="openWeb3D('${projectURL}')">🌐 Web 3D Viewer</button>`;
           }
 
           card.innerHTML = `
